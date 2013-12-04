@@ -1,6 +1,7 @@
 {
         "name": "simpletree/yii2-devui",
         "description": "Developer web UI for Yii2",
+        "license": "GPL2",
         "keywords": ["yii", "developer", "ui"],
         "type": "yii2-extension",
         "authors": [
