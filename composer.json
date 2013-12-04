@@ -1,0 +1,20 @@
+{
+        "name": "simpletree/yii2-devui",
+        "description": "Developer web UI for Yii2",
+        "keywords": ["yii", "developer", "ui"],
+        "type": "yii2-extension",
+        "authors": [
+                {
+                        "name": "Jakob Rosenberg",
+                        "email": "jakobrosenberg@gmail.com"
+                }
+        ],
+        "require": {
+                "yiisoft/yii2": "*",
+                "yiisoft/yii2-gii": "*"
+        },
+        "autoload": {
+                "psr-0": { "Simpletree\\devui\\": "" }
+        },
+        "target-dir": "Simpletree\\devui\\"
+}
