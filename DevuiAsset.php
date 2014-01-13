@@ -18,6 +18,8 @@ class DevuiAsset extends AssetBundle{
 
 	public $publishOptions = ['forceCopy' => true];
 
+	public $depends = ['yii\bootstrap\BootstrapAsset'];
+
 	public function getLoaderUrl()
 	{
 		return 'test';

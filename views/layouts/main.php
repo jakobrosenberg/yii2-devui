@@ -29,29 +29,39 @@ use yii\bootstrap\NavBar;
 <?= Nav::Widget([
 	'options' => ['class' => 'nav navbar-nav'],
 	'encodeLabels' => false,
-	'items' => [
-		['label'=>'<span class=""></span>  Tests', 'url'=>[$path.'tests/index']],
-		['label'=>'<span class="glyphicon glyphicon-warning-sign"></span>  Report', 'url'=>[$path.'report/index']],
-		['label'=>'<span class="glyphicon glyphicon-stats"></span>  Coverage', 'url'=>[$path.'coverage/index']],
-		['label'=>'<span class="glyphicon glyphicon-book"></span>  Db', 'items' => [
-			['label'=>'Chive', 'url' => [$path.'db/chive']],
-			['label'=>'DbNinja', 'url' => [$path.'db/dbninja']],
-			['label'=>'Adminer', 'url' => [$path.'db/adminer']]
-		]],
-		['label'=>'<span class="glyphicon glyphicon-transfer"></span>  Migrations', 'url' => [$path.'migrations/index']],
-		['label'=>'<span class="glyphicon glyphicon-wrench"></span> Gii', 'url' => [$path.'gii/default/index']],
+	'items' => $module->getNav($path)
 
-	]
+
+//		[
+//		['label'=>'<span class=""></span>  Tests', 'url'=>[$path.'tests/index']],
+//		['label'=>'<span class="glyphicon glyphicon-warning-sign"></span>  Report', 'url'=>[$path.'codeception/report']],
+//		['label'=>'<span class="glyphicon glyphicon-stats"></span>  Coverage', 'url'=>[$path.'codeception/coverage']],
+//		['label'=>'<span class="glyphicon glyphicon-book"></span>  Db', 'items' => [
+//			['label'=>'PhpMyAdmin', 'url' => [$path.'db/phpmyadmin']],
+//			['label'=>'Chive', 'url' => [$path.'db/chive']],
+//			['label'=>'DbNinja', 'url' => [$path.'db/dbninja']],
+//			['label'=>'Adminer', 'url' => [$path.'db/adminer']],
+//			['label'=>'SqlDesigner', 'url' => [$path.'db/sqldesigner']]
+//		]],
+//		['label'=>'<span class="glyphicon glyphicon-transfer"></span>  Migrations', 'url' => [$path.'migrations/index']],
+//		['label'=>'<span class="glyphicon glyphicon-wrench"></span> Gii', 'url' => [$path.'gii/default/index']],
+//
+//	]
 ]) ?>
 <?= Nav::Widget([
 	'options' => ['class' => 'nav navbar-nav navbar-right'],
 	'encodeLabels' => false,
 	'items' => [
 		['label'=>'<span class=""></span> ' . $module->project->name, 'items' => \Simpletree\devui\models\Project::getNavigationData()],
-		['label'=> '<span class="glyphicon glyphicon-cog"></span> ']
+		['label'=> '<span class="glyphicon glyphicon-cog"></span> ', 'items'=>[
+			['label'=>'Apps', 'url' => [$path.'app/index']],
+			['label'=>'Reinstall', 'url' => [$path.'setup/reinstall']]
+		]]
 ]
 ]); ?>
 <?php NavBar::end() ?>
+
+
 <div class="container">
 	<?php echo \yii\widgets\Breadcrumbs::widget(array(
 		'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : array(),

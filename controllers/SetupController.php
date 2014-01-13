@@ -9,6 +9,7 @@ namespace Simpletree\devui\controllers;
 
 
 use Simpletree\devui\components\Controller;
+use Simpletree\devui\models\Project;
 
 /**
  * Class SettingsController
@@ -26,16 +27,30 @@ class SetupController extends Controller{
 
 	public function actionInstall()
 	{
+		$this->layout = 'splash';
 		if(isset($_POST['confirm']) && $_POST['confirm']){
+
 			$this->getMigration()->safeUp();
-			$this->redirect(['/devui/project/create']);
+			$this->redirect(['dashboard/index']);
 		}
 		return $this->render('install');
 	}
 
 	public function actionUninstall()
 	{
+		if(isset($_POST['confirm']) && $_POST['confirm']){
+			$this->getMigration()->safeDown();
+			$this->redirect(['dashboard/index'])->send();
+			exit;
+		}
+		return $this->render('uninstall');
+	}
+
+	public function actionReinstall()
+	{
 		$this->getMigration()->safeDown();
+		$this->getMigration()->safeUp();
+		$this->redirect(['dashboard/index']);
 	}
 
 
@@ -54,14 +69,4 @@ class SetupController extends Controller{
 		return $migration;
 	}
 
-/*	public function normalizeMigrationOptions($options)
-	{
-		foreach ($options AS $key => $val){
-			if(strstr($val, ' ')){
-				$val = '"' . $val . '"';
-			}
-			$options[$key] = "--$key=$val";
-		}
-		return implode(' ', $options);
-	}*/
 } 

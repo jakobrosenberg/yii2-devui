@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \Simpletree\devui\components\AssetBundle $assetClass
+ */
+?>
+
 
 <?php
 	$asset = $assetClass::register($this);

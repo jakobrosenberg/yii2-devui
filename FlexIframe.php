@@ -15,6 +15,7 @@ class FlexIframe extends Widget{
 
 	public $url;
 	public $interval=20;
+	public $moduleName;
 
 	/**
 	 * Set to one of the following options
@@ -35,6 +36,19 @@ class FlexIframe extends Widget{
 
 		$this->registerJs();
 		$this->registerCss();
+
+		if(!$this->moduleName){
+			$this->moduleName = $this->view->context->module->id;
+		}
+
+
+		$module = \Simpletree\devui\components\Helper::module('Simpletree\devui\Module', $this->view->context->module);
+		echo $this->render('iframe/bookmark', [
+			'module' => $module
+		]);
+
+
+
 		echo Html::beginTag('div', ['class'=>'iframe_container']);
 		echo Html::tag('iframe', '', [
 			'onload'=>'iframeLoad({
@@ -61,6 +75,9 @@ class FlexIframe extends Widget{
 				position: relative;
 				height: 100%;
 			}
+			form.iframe_bookmark {
+				margin-bottom: 20px;
+			}
 		');
 	}
 
@@ -68,11 +85,28 @@ class FlexIframe extends Widget{
 	{
 		$this->view->registerJs(
 			 '//<script>
+
+
 				iframeLoad = function (v)
 				{
+
 					this.iframe = v.iframe;
 					this.container = this.iframe.parentNode;
 					this.iframeBody = this.iframe.contentWindow.document.body;
+
+//				 console.log(this.iframe);
+
+
+					setInterval(function(){
+					 if(this.url !== this.iframe.contentWindow.location.href)
+{
+						    this.url = this.iframe.contentWindow.location.href;
+						    document.getElementById("bookmark-url").value = this.iframe.contentWindow.location.href;
+							document.getElementById("bookmark-name").value = this.iframe.contentWindow.document.title;
+					 }
+				        
+					}, 100)
+
 
 					if (v.interval === undefined){
 						v.interval = 20;

@@ -6,7 +6,9 @@ namespace Simpletree\devui;
 use Simpletree\devui\models\Project;
 use yii\console\controllers\MigrateController;
 use Simpletree\devui\models\Command;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\web\Cookie;
 
 /**
@@ -20,92 +22,56 @@ class Module extends \yii\base\Module
 {
 	protected $_project;
 
-	public $id = 'devui';
-
-	//path to codeception.yml
-	public $path = '@app';
-
-	//custom codeception.yml configuration
-	public $config = [];
-
-	//custom commands
-	public $commands = [
-		'functional' => 'php codecept.phar run functional --html',
-		'acceptance' => 'php codecept.phar run acceptance --html'
-	];
-
 	public $defaultRoute = 'dashboard';
 
 	public $layout = 'main';
 
-
-	//default codeception.yml configuration
-	protected $_config = [
-		'tests' => 'tests',
-    	'log' => 'tests/_log',
-    	'data' => 'tests/_data',
-    	'helpers' => 'tests/_helpers'
-	];
-
-	public $controllerNamespace = 'Simpletree\devui\controllers';
-
 	protected $_db;
+
+
+
 
 	public function init()
 	{
 		parent::init();
 
-		if(!$this->hasModule('gii')){
-			$this->setModule('gii', [
-				'class' => 'yii\gii\Module',
-				'allowedIPs' => ['127.0.0.1', '10.10.10.1', '::1'],
-			]);
-		}
-		$gii = $this->getModule('gii');
-		$gii->setLayoutPath('@Simpletree/devui/views/layouts/gii');
 
-		\Yii::$app->setModule('_devui', $this);
+		\Yii::$app->setComponent('assetManager', ['class'=>'\Simpletree\devui\components\AssetManager']);
 
-		// merge user config with default config
-		$this->config = array_merge($this->_config, $this->config);
 
-		//set alias
-		\Yii::setAlias('codeceptionLog', $this->getRealPathFor('log'));
+
 
 
 		$this->db = 'db';
 
 
-//		$project = new Project();
-//		die($project->getTableSchema());
-
-//		die(\Yii::$app->requestedRoute);
-//		echo \Yii::$app->requestedRoute;
-//		if(!\Yii::$app->requestedRoute == 'devui/setup/install')
-//			echo 'table exists';
-
 		$response = \Yii::$app->getResponse();
-		//if table don't exist
+		//if table doesn't exist
 		if(!$this->db->getTableSchema(Project::tableName())){
-			if(\Yii::$app->requestedRoute !== 'devui/setup/install'){
-				$response->redirect(Html::url(['/devui/setup/install']));
+			if(!in_array(\Yii::$app->requestedRoute, ['devui/setup/install', 'devui/setup/reinstall', 'devui/setup/uninstall'])){
+				$response->redirect(Html::url(['/devui/setup/install']))->send();
+				exit;
 			}
 		}
+		//else if a project doesn't exist
+		elseif (!$this->project){
+			if(!in_array(\Yii::$app->requestedRoute, ['devui/project/create', 'devui/setup/reinstall', 'devui/setup/uninstall'])){
+				$response->redirect(Html::url(['/devui/project/create']))->send();
+				exit;
+			}
+		}
+
+
+		elseif( Project::getCurrent()){
+			foreach (Project::getCurrent()->apps AS $App){
+				$this->setModule($App->info->module_idRecursive, array_merge(['class'=>$App->info->path],[]));
+			};
+		}
+
+
 	}
 
-	/**
-	 * Returns the real path of a $config item
-	 * @param $path
-	 * @return string
-	 */
-	public function getRealPathFor($path)
-	{
-		$path = $this->config[$path];
-		if(substr($path, 0, 1) !== '/')		{
-			$path = \Yii::getAlias($this->path . '/' . $path);
-		}
-		return $path;
-	}
+
 
 	public function getDb()
 	{
@@ -136,28 +102,50 @@ class Module extends \yii\base\Module
 
 	public function getProject()
 	{
-		if(!$this->_project){
-			if ($projectId = \Yii::$app->request->cookies->getValue('devui_project_id')){
-				$this->_project = Project::find($projectId);
-			}else{
-				$this->_project = Project::find()->one();
-			}
-		}
-		return $this->_project;
+		return Project::getCurrent();
 	}
 
 	public function setProject($Project)
 	{
-		$cookie = new Cookie();
-		$cookie->name = 'devui_project_id';
-		$cookie->value = $Project->id;
-		$cookie->expire = time() + 3600*7*30;
-		\Yii::$app->response->cookies->add($cookie);
-		$this->_project = $Project;
+		return Project::setCurrent($Project);
 	}
 
-	public function getRoute()
+
+
+	public function getNav($path)
 	{
 
+		$items = [];
+		foreach (Project::getCurrent()->apps AS $App){
+			$App->recursiveValues = true;
+			if(!$actions = $App->actions){
+				$actions = [$App->info->name => ['default/index']];
+			}
+
+			foreach($actions AS $label => $url){
+				$item = [
+					'label' => $label,
+					'url' => is_string($url) ? $url : [$path . $App->info->module_id . '/' . $url[0]]
+				];
+				if(isset($App->info->category) && $category = $App->info->category)
+				{
+					if(!isset($items[$category])){
+						$items[$category]['label'] = $category;
+					}
+					$items[$category]['items'][] = $item;
+				}else{
+					$items[] = $item;
+				}
+			}
+		}
+
+
+
+		return $items;
+
 	}
+
+
+
+
 }

@@ -10,6 +10,7 @@ namespace Simpletree\devui\components;
 
 class Controller extends \yii\web\Controller{
 
+
 //	public function module($id)
 //	{
 //		$module = $this->module;
@@ -18,5 +19,6 @@ class Controller extends \yii\web\Controller{
 //		}
 //		return $module;
 //	}
+
 
 } 
