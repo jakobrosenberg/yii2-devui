@@ -30,6 +30,7 @@ class ProjectApp extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
+			[['id_project', 'id_app'], 'required'],
 			[['id_project', 'id_app', 'position', 'create_time', 'update_time'], 'integer'],
 			[['actions', 'category'], 'string', 'max' => 255]
 		];

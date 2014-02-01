@@ -9,6 +9,7 @@ namespace Simpletree\devui\models\base;
  * @property integer $id_app
  * @property string $url
  * @property string $name
+ * @property boolean $default
  * @property string $description
  * @property integer $create_time
  * @property integer $update_time
@@ -30,6 +31,7 @@ class Bookmark extends \yii\db\ActiveRecord
 	{
 		return [
 			[['id_app', 'create_time', 'update_time'], 'integer'],
+			[['default'], 'boolean'],
 			[['url', 'name', 'description'], 'string', 'max' => 255]
 		];
 	}
@@ -44,6 +46,7 @@ class Bookmark extends \yii\db\ActiveRecord
 			'id_app' => 'Id App',
 			'url' => 'Url',
 			'name' => 'Name',
+			'default' => 'Default',
 			'description' => 'Description',
 			'create_time' => 'Create Time',
 			'update_time' => 'Update Time',

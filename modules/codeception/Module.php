@@ -5,6 +5,15 @@ namespace Simpletree\devui\modules\codeception;
 
 class Module extends \Simpletree\devui\components\Module
 {
+	public function behaviors()
+	{
+		return [
+			'ModuleApp' => [
+				'class' => '\Simpletree\devui\behaviors\ModuleApp'
+			]
+		];
+	}
+
 	public static $moduleId = 'codeception';
 
 	public static $description = 'description';

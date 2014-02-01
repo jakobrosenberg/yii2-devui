@@ -7,6 +7,7 @@
 
 namespace Simpletree\devui;
 
+use Simpletree\devui\models\Bookmark;
 use yii\helpers\Html;
 use yii\base\Widget;
 use yii\web\View;
@@ -15,7 +16,6 @@ class FlexIframe extends Widget{
 
 	public $url;
 	public $interval=20;
-	public $moduleName;
 
 	/**
 	 * Set to one of the following options
@@ -30,27 +30,35 @@ class FlexIframe extends Widget{
 	{
 		parent::init();
 
-		//todo throw exception
-		//if($interval===false)
+		if($Bookmark = Bookmark::find(['default'=>1, 'id_app'=>$this->view->context->module->projectId]))
+		{
+			$this->url = $Bookmark->url;
+		}
 
 
 		$this->registerJs();
 		$this->registerCss();
 
-		if(!$this->moduleName){
-			$this->moduleName = $this->view->context->module->id;
-		}
+		$this->renderBookmarks();
+		$this->renderIframe();
 
 
-		$module = \Simpletree\devui\components\Helper::module('Simpletree\devui\Module', $this->view->context->module);
+	}
+
+	public function renderBookmarks()
+	{
+
 		echo $this->render('iframe/bookmark', [
-			'module' => $module
+			'Bookmark' => new \Simpletree\devui\models\base\Bookmark(['id_app' => $this->view->context->module->projectId]),
+			'bookmarks' => \Simpletree\devui\models\Bookmark::find()->where(['id_app'=>$this->view->context->module->projectId])->all()
 		]);
+	}
 
-
-
+	public function renderIframe()
+	{
 		echo Html::beginTag('div', ['class'=>'iframe_container']);
 		echo Html::tag('iframe', '', [
+			'id' => 'devui_iframe',
 			'onload'=>'iframeLoad({
 			iframe:this,
 			interval:'.$this->interval.',
@@ -87,6 +95,7 @@ class FlexIframe extends Widget{
 			 '//<script>
 
 
+
 				iframeLoad = function (v)
 				{
 
@@ -94,11 +103,19 @@ class FlexIframe extends Widget{
 					this.container = this.iframe.parentNode;
 					this.iframeBody = this.iframe.contentWindow.document.body;
 
-//				 console.log(this.iframe);
-
+//
+//					var nodelist = document.getElementsByClassName("iframe_bookmark_link");
+//					for(i = 0; i < nodelist.length; i++) {
+//						nodelist[i].addEventListener("click", function(evt){
+//							evt.preventDefault();
+//							v.iframe.contentWindow.location.href = evt.srcElement.href;
+//						});
+//
+//					}
 
 					setInterval(function(){
-					 if(this.url !== this.iframe.contentWindow.location.href)
+					//update input fields if url changes or bookmark field is empty
+					 if(this.url !== this.iframe.contentWindow.location.href || !document.getElementById("bookmark-name").value)
 {
 						    this.url = this.iframe.contentWindow.location.href;
 						    document.getElementById("bookmark-url").value = this.iframe.contentWindow.location.href;

@@ -2,9 +2,12 @@
 
 namespace Simpletree\devui\controllers;
 
+use Simpletree\devui\models\App;
 use Simpletree\devui\models\Project;
+use Simpletree\devui\models\ProjectApp;
 use Simpletree\devui\models\ProjectSearch;
 use Simpletree\devui\components\Controller;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 
@@ -144,5 +147,58 @@ class ProjectController extends Controller
 		$project = $this->findModel($project);
 		$this->module->project = $project;
 		$this->redirect(['/devui/dashboard/index']);
+	}
+
+	public function actionApps()
+	{
+
+		$Project = Project::getCurrent();
+
+		if(isset($_POST['ProjectApp'])){
+			if($id = $_POST['ProjectApp']['id']){
+				$model = ProjectApp::find($id);
+			}else{
+				$model = new ProjectApp();
+
+			}
+			\PC::debug($_POST);
+			if($model->load($_POST)){
+				if(isset($_POST['ProjectApp']['enabled'])){
+					unset($_POST['ProjectApp']['enabled']);
+					$model->save();
+					\PC::debug($model->errors);
+				}else{
+					$model->delete();
+				}
+				\PC::debug($model);
+			}
+		}
+
+
+
+
+
+
+		$models = [];
+		foreach(App::find()->all() AS $App){
+			if(!$App->projectApp){
+				$models[] = new ProjectApp([
+					'id_app' => $App->id,
+					'id_project' => $Project->id
+				]);
+			}else{
+				$models[] = $App->projectApp;
+			}
+		}
+
+
+		$dataProvider = new ActiveDataProvider([
+			'query' => App::find()
+		]);
+
+		echo $this->render('apps', [
+			'models' => $models,
+			'dataProvider' => $dataProvider
+		]);
 	}
 }

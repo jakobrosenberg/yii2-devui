@@ -16,8 +16,13 @@ class Helper {
 	 * @param \yii\base\Module $module
 	 * @return null|\yii\base\Module
 	 */
-	public static function module($class, $module)
+	public static function module($class, $module = null)
 	{
+		if(!$module)
+		{
+			$module = \Yii::$app->controller->module;
+		}
+
 		while (get_class($module) !== $class){
 			if(($module->module)){
 				$module = $module->module;
@@ -26,6 +31,11 @@ class Helper {
 			}
 		}
 		return $module;
+	}
+
+	public static function devuiModule()
+	{
+		return self::module('Simpletree\devui\Module');
 	}
 
 //	/**

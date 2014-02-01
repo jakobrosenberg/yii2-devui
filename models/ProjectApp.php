@@ -29,10 +29,13 @@ class ProjectApp extends \Simpletree\devui\models\base\ProjectApp
 
 	public function __get($name)
 	{
+		$recursive = ($this->recursiveValues || preg_match('/Recursive$/',$name)) ? true : false;
+		$name = preg_replace('/Recursive?/', '', $name);
+
 		if($value = parent::__get($name)){
 			return $value;
 		}
-		elseif($this->recursiveValues){
+		elseif($recursive){
 			$this->info->recursiveValues = true;
 			return $this->info->$name;
 		}

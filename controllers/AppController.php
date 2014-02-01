@@ -2,8 +2,12 @@
 
 namespace Simpletree\devui\controllers;
 
+use Simpletree\devui\components\Helper;
 use Simpletree\devui\models\App;
 use Simpletree\devui\models\AppSearch;
+use Simpletree\devui\models\ProjectApp;
+use Simpletree\devui\models\Project;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
@@ -31,12 +35,14 @@ class AppController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new AppSearch;
-		$dataProvider = $searchModel->search($_GET);
+
+		$dataProvider = new ActiveDataProvider([
+			'query' => App::find()
+		]);
 
 		return $this->render('index', [
 			'dataProvider' => $dataProvider,
-			'searchModel' => $searchModel,
+//			'searchModel' => $searchModel,
 		]);
 	}
 

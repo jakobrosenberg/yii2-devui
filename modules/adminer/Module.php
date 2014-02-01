@@ -14,7 +14,7 @@ class Module extends \Simpletree\devui\components\Module
 		];
 	}
 
-	public $controllerNamespace = 'Simpletree\devui\modules\adminer\controllers';
+//	public $controllerNamespace = 'Simpletree\devui\modules\adminer\controllers';
 
 	public function init()
 	{

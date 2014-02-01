@@ -57,6 +57,7 @@ class MainMigration extends \yii\db\Migration
 			'id_app' => 'int',
 			'url' => 'string',
 			'name' => 'string',
+			'default' => 'bool',
 			'description' => 'string',
 			'create_time' => 'int(11)',
 			'update_time' => 'int(11)'
@@ -82,8 +83,8 @@ class MainMigration extends \yii\db\Migration
 		$t = $this->prefix . 'project_app';
 		$this->createTable($t, [
 			'id' => 'pk',
-			'id_project' => 'int',
-			'id_app' => 'int',
+			'id_project' => 'int NOT NULL',
+			'id_app' => 'int NOT NULL',
 			'actions' => 'string',
 			'position' => 'int',
 			'category' =>'string',
@@ -112,8 +113,8 @@ class MainMigration extends \yii\db\Migration
 
 		//apps
 		$apps = [
-			['position'=>1, 'path'=>'Simpletree\devui\modules\phpmyadmin\Module'],
-			['position'=>2, 'path'=>'Simpletree\devui\modules\chive\Module'],
+//			['position'=>1, 'path'=>'Simpletree\devui\modules\phpmyadmin\Module'],
+//			['position'=>2, 'path'=>'Simpletree\devui\modules\chive\Module'],
 			['position'=>3, 'path'=>'Simpletree\devui\modules\adminer\Module'],
 			['position'=>4, 'path'=>'Simpletree\devui\modules\dbninja\Module'],
 			['position'=>5, 'path'=>'Simpletree\devui\modules\sqldesigner\Module'],

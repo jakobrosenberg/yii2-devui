@@ -24,10 +24,12 @@ class Project extends \Simpletree\devui\models\base\Project
 	public static function getNavigationData()
 	{
 		$data = [];
+		$data[] = ['label'=>'Create project', 'url' => ['/devui/project/create']];
+		$data[] = ['label'=>'Manage project apps', 'url' => ['/devui/project/apps']];
+		$data[] = ['label'=>'', 'options'=>['class'=>'divider']];
 		foreach(self::find()->all() AS $project){
 			$data[] = ['label'=>$project->name, 'url' => ['/devui/project/change', 'project'=>$project->id]];
 		}
-
 		return $data;
 	}
 

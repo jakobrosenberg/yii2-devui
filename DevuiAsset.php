@@ -14,7 +14,8 @@ class DevuiAsset extends AssetBundle{
 
 	public $sourcePath = '@Simpletree/devui/assets/main';
 
-	public $css = ['css/main.css'];
+	public $css = ['css/main.css', 'css/toggle-switch.css'];
+
 
 	public $publishOptions = ['forceCopy' => true];
 

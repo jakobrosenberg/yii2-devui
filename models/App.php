@@ -2,6 +2,7 @@
 
 namespace Simpletree\devui\models;
 use yii\helpers\ArrayHelper;
+use yii\web\HttpException;
 
 /**
  * This is the model class for table "devui_app".
@@ -60,10 +61,10 @@ class App extends \Simpletree\devui\models\base\App
 
 		if($value = parent::__get($name)){
 			return $value;
-		}elseif($recursive){
-			$class = $this->path;
+		}elseif($recursive && $class = $this->path)
+		{
 			$name = ArrayHelper::getValue($this->getModuleAttributes(), $name, $name);
-//			return call_user_func([$class, $name]);
+
 			if(property_exists($class, $name)){
 				return $class::$$name;
 			}
@@ -82,4 +83,10 @@ class App extends \Simpletree\devui\models\base\App
 		return true;
 	}
 
+	public function getProjectApp()
+	{
+		$Project = Project::getCurrent();
+		return $this->hasOne(ProjectApp::className(), ['id_app' => 'id'])->where(['id_project'=>$Project->id]);
+
+	}
 }

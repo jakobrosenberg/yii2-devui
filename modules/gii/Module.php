@@ -6,6 +6,15 @@ use Yii;
 
 class Module extends \yii\gii\Module
 {
+	public function behaviors()
+	{
+		return [
+			'ModuleApp' => [
+				'class' => '\Simpletree\devui\behaviors\ModuleApp'
+			]
+		];
+	}
+
 	public static $moduleId = 'gii';
 
 	public static $name = 'Gii';

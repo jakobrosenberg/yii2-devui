@@ -8,13 +8,26 @@
 namespace Simpletree\devui\Behaviors;
 
 
+use Simpletree\devui\models\App;
 use yii\base\Behavior;
 
+/**
+ * Class ModuleApp
+ *
+ * @package Simpletree\devui\Behaviors
+ * @property integer $projectId
+ */
 class ModuleApp extends Behavior{
 
 	public function test()
 	{
 		return 'ootoot';
+	}
+
+	public function getProjectId()
+	{
+		$class = get_class($this->owner);
+		return App::find(['path'=>$class])->projectApp->id;
 	}
 
 } 

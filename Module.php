@@ -29,18 +29,12 @@ class Module extends \yii\base\Module
 	protected $_db;
 
 
-
-
 	public function init()
 	{
 		parent::init();
 
 
 		\Yii::$app->setComponent('assetManager', ['class'=>'\Simpletree\devui\components\AssetManager']);
-
-
-
-
 
 		$this->db = 'db';
 
@@ -123,23 +117,24 @@ class Module extends \yii\base\Module
 			}
 
 			foreach($actions AS $label => $url){
+
 				$item = [
 					'label' => $label,
 					'url' => is_string($url) ? $url : [$path . $App->info->module_id . '/' . $url[0]]
 				];
-				if(isset($App->info->category) && $category = $App->info->category)
+
+				if(isset($App->category) && $App->category !== '/' && $category = $App->category)
 				{
-					if(!isset($items[$category])){
-						$items[$category]['label'] = $category;
-					}
+					$items[$category]['label'] = $category;
 					$items[$category]['items'][] = $item;
 				}else{
 					$items[] = $item;
 				}
 			}
+
 		}
 
-
+		\PC::debug($items);
 
 		return $items;
 

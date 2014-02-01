@@ -5,6 +5,15 @@ namespace Simpletree\devui\modules\dbninja;
 
 class Module extends \Simpletree\devui\components\Module
 {
+	public function behaviors()
+	{
+		return [
+			'ModuleApp' => [
+				'class' => '\Simpletree\devui\behaviors\ModuleApp'
+			]
+		];
+	}
+
 	public $controllerNamespace = 'Simpletree\devui\modules\dbninja\controllers';
 
 	public function init()
