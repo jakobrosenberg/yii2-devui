@@ -12,13 +12,13 @@ class DefaultController extends Controller
 	public function actionCoverage()
 	{
 		$this->processCommandLine();
-		$file = \Yii::getAlias('@codeception/'.$this->module->config['log'].'/coverage/index.html');
+		$file = \Yii::getAlias('@codeception/'.$this->module->data['paths']['log'].'/coverage/index.html');
 		return $this->render('coverage',['file'=>$file]);
 	}
 
 	public function actionReport()
 	{
-		$file = \Yii::getAlias('@codeception/'.$this->module->config['log'].'/report.html');
+		$file = \Yii::getAlias('@codeception/'.$this->module->data['paths']['log'].'/report.html');
 
 		$result = $this->processCommandLine();
 		$model = new CommandHistory([
@@ -38,6 +38,7 @@ class DefaultController extends Controller
 	public function processCommandLine()
 	{
 		if(isset($_POST['CommandHistory'])){
+			chdir(\Yii::getAlias('@codeception'));
 			$model = new CommandHistory();
 			$model->load($_POST);
 			$model->save();
