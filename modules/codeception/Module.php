@@ -3,6 +3,14 @@
 namespace Simpletree\devui\modules\codeception;
 
 
+use Symfony\Component\Yaml\Yaml;
+
+/**
+ * Class Module
+ *
+ * @package Simpletree\devui\modules\codeception
+ * @property array $data
+ */
 class Module extends \Simpletree\devui\components\Module
 {
 	public function behaviors()
@@ -29,16 +37,18 @@ class Module extends \Simpletree\devui\components\Module
 		'Codeception Coverage' => ['default/coverage']
 	];
 
-	//path to codeception.yml
+
+	/**
+	 * path to codeception.yml
+	 * @var string
+	 */
 	public $path = '@app';
 
-	//custom codeception.yml configuration
-	public $config = [
-		'tests' => 'tests',
-		'log' => 'tests/_log',
-		'data' => 'tests/_data',
-		'helpers' => 'tests/_helpers'
-	];
+	/**
+	 * Data loaded from codeception.yml
+	 * @var array
+	 */
+	private $_data;
 
 	//custom commands
 	public $commands = [
@@ -52,9 +62,12 @@ class Module extends \Simpletree\devui\components\Module
 		parent::init();
 		//set alias
 		\Yii::setAlias('codeception', $this->path);;
-
 		$path =  \Yii::getAlias('@codeception/codeception.yml');
+		$this->_data = Yaml::parse(file_get_contents($path));
+	}
 
-
+	public function getData()
+	{
+		return $this->_data;
 	}
 }
