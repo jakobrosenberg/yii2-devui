@@ -17,7 +17,7 @@ class Setting extends \Simpletree\devui\models\base\Setting
 	public function behaviors()
 	{
 		return [
-			'timestamp' => ['class' => 'yii\behaviors\AutoTimestamp'],
+			'timestamp' => ['class' => 'yii\behaviors\TimestampBehavior'],
 		];
 	}
 
@@ -28,7 +28,7 @@ class Setting extends \Simpletree\devui\models\base\Setting
 	{
 		return [
 			'timestamp' => [
-				'class' => 'yii\behaviors\AutoTimestamp',
+				'class' => 'yii\behaviors\TimestampBehavior',
 				'attributes' => [
 					ActiveRecord::EVENT_BEFORE_INSERT => ['create_time', 'update_time'],
 					ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',

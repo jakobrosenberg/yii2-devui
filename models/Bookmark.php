@@ -1,6 +1,7 @@
 <?php
 
 namespace Simpletree\devui\models;
+use Simpletree\devui\models\Query;
 
 /**
  * This is the model class for table "devui_bookmark".
@@ -17,7 +18,7 @@ class Bookmark extends \Simpletree\devui\models\base\Bookmark
 	public function behaviors()
 	{
 		return [
-			'timestamp' => ['class' => 'yii\behaviors\AutoTimestamp'],
+			'timestamp' => ['class' => 'yii\behaviors\TimestampBehavior'],
 		];
 	}
 
@@ -37,11 +38,9 @@ class Bookmark extends \Simpletree\devui\models\base\Bookmark
 
 	public static function createQuery()
 	{
-		return parent::createQuery()->defaultOrder();
+		$query = new Query(['modelClass' => get_called_class()]);
+		$query->orderByNewest();
+		return $query;
 	}
 
-	public static function defaultOrder($query)
-	{
-		$query->orderBy('id ASC');
-	}
 }

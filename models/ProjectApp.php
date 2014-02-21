@@ -18,7 +18,7 @@ class ProjectApp extends \Simpletree\devui\models\base\ProjectApp
 	public function behaviors()
 	{
 		return [
-			'timestamp' => ['class' => 'yii\behaviors\AutoTimestamp'],
+			'timestamp' => ['class' => 'yii\behaviors\TimestampBehavior'],
 		];
 	}
 

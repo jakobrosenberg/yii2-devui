@@ -17,7 +17,7 @@ class CommandHistory extends \Simpletree\devui\models\base\CommandHistory
 	public function behaviors()
 	{
 		return [
-			'timestamp' => ['class' => 'yii\behaviors\AutoTimestamp'],
+			'timestamp' => ['class' => 'yii\behaviors\TimestampBehavior'],
 		];
 	}
 }
