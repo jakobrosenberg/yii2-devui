@@ -22,5 +22,13 @@ class DefaultController extends Controller{
 		echo 'hello Index Action';
 	}
 
+	public function actions()
+	{
+		return [
+			'flexiframe' => [
+				'class' => 'Simpletree\devui\widgets\FlexIframe\Actions'
+			]
+		];
+	}
 
 } 

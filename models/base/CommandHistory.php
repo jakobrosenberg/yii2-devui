@@ -6,11 +6,13 @@ namespace Simpletree\devui\models\base;
  * This is the model class for table "devui_command_history".
  *
  * @property integer $id
- * @property integer $project_id
+ * @property integer $id_project
+ * @property integer $id_app
  * @property string $command
- * @property integer $create_time
+ * @property string $name
  * @property boolean $favorite
  * @property string $result
+ * @property integer $create_time
  */
 class CommandHistory extends \yii\db\ActiveRecord
 {
@@ -28,10 +30,10 @@ class CommandHistory extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['project_id', 'create_time'], 'integer'],
+			[['id_project', 'id_app', 'create_time'], 'integer'],
 			[['favorite'], 'boolean'],
 			[['result'], 'string'],
-			[['command'], 'string', 'max' => 255]
+			[['command', 'name'], 'string', 'max' => 255]
 		];
 	}
 
@@ -42,11 +44,13 @@ class CommandHistory extends \yii\db\ActiveRecord
 	{
 		return [
 			'id' => 'ID',
-			'project_id' => 'Project ID',
+			'id_project' => 'Id Project',
+			'id_app' => 'Id App',
 			'command' => 'Command',
-			'create_time' => 'Create Time',
+			'name' => 'Name',
 			'favorite' => 'Favorite',
 			'result' => 'Result',
+			'create_time' => 'Create Time',
 		];
 	}
 }

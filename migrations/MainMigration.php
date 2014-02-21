@@ -27,11 +27,13 @@ class MainMigration extends \yii\db\Migration
 		$t = $this->prefix . 'command_history';
 		$this->createTable($t, [
 			'id' => 'pk',
-			'project_id' => 'int',
+			'id_project' => 'int',
+			'id_app' => 'int',
 			'command' => 'string',
-			'create_time' => 'int',
+			'name' => 'string',
 			'favorite' => 'bool',
-			'result' => 'text'
+			'result' => 'text',
+			'create_time' => 'int'
 		]);
 		$this->createIndex('create_time', $t, 'create_time');
 		$this->createIndex('favorite', $t, 'favorite');

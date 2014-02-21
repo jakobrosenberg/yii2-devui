@@ -15,7 +15,7 @@
 
 <?php if(file_exists($file)): ?>
 	<h4><?= Yii::$app->formatter->asDatetime(filemtime($file)) ?></h4>
-	<?= \Simpletree\devui\FlexIframe::widget([
+	<?= \Simpletree\devui\widgets\FlexIframe\FlexIframe::widget([
 		'url'=> $asset->baseUrl."/loader.php".$file,
 		'interval' => 0
 	]) ?>

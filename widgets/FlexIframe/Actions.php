@@ -1,18 +1,27 @@
 <?php
+/**
+ * Created by Jakob
+ * Date: 02-02-14
+ * Time: 00:16
+ */
 
-namespace Simpletree\devui\controllers;
+namespace Simpletree\devui\widgets\FlexIframe;
 
-use Simpletree\devui\components\Helper;
+
 use Simpletree\devui\models\Bookmark;
-use Simpletree\Foundation\Html;
+use yii\base\Action;
 use yii\web\HttpException;
 use yii\widgets\ActiveForm;
 
-class BookmarkController extends \yii\web\Controller
-{
+class Actions extends Action{
+
+	public function run($action)
+	{
+		call_user_func([$this, 'action'.$action]);
+	}
+
 	public function actionSave()
 	{
-
 		$model = new Bookmark();
 		$model->save();
 
@@ -29,20 +38,23 @@ class BookmarkController extends \yii\web\Controller
 
 		if(!$model->save() && false)
 		{
-			$af = new ActiveForm;
+			$af = new ActiveForm();
 			throw new HttpException(500, $af->errorSummary($model));
 		}else
 		{
-			echo $this->renderPartial('/iframe/bookmarkList', [
+			echo BookmarkList::widget([
 				'bookmarks' => Bookmark::find()->where(['id_app' => 1])->all(),
 				'model' => $model
 			]);
+
+
 		}
 	}
 
-	public function actionDelete($id)
+	public function actionDelete()
 	{
+		$id = $_GET['id'];
 		Bookmark::find($id)->delete();
 	}
 
-}
+} 

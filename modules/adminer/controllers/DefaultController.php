@@ -8,7 +8,7 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-		return $this->render('@Simpletree/devui/views/iframe/asset', [
+		return $this->render('/default', [
 			'assetClass' => 'Simpletree\devui\modules\adminer\Asset',
 			'iframeOptions' => [
 				'height' => 'window',

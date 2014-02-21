@@ -48,7 +48,7 @@ class Project extends \Simpletree\devui\models\base\Project
 			$_project = $Project;
 		}
 
-		if (!$_project){
+		if ($_project === null){
 			if ($projectId = \Yii::$app->request->cookies->getValue('devui_project_id')){
 				$_project = Project::find($projectId);
 			}

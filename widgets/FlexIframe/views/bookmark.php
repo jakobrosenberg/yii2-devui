@@ -13,12 +13,12 @@ $DevuiModule = \Simpletree\devui\components\Helper::devuiModule()
 
 
 <ul class="bookmarks list-group">
-	<?= $this->render('iframe/bookmarkList', [
-		'bookmarks' => $bookmarks,
+	<?= \Simpletree\devui\widgets\FlexIframe\BookmarkList::widget([
+		'bookmarks' => $bookmarks
 	]) ?>
 </ul>
 
-<?= Html::beginForm(["/$DevuiModule->uniqueId/bookmark/save"], 'post', ['class'=>'iframe_bookmark_form', 'role'=>'form']); ?>
+<?= Html::beginForm(["/$DevuiModule->uniqueId/default/flexiframe", 'action'=>'save'], 'post', ['class'=>'iframe_bookmark_form', 'role'=>'form']); ?>
 
 <div class="row">
 	<div class="col-xs-7 col-sm-8 col-md-9">

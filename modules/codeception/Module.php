@@ -32,16 +32,13 @@ class Module extends \Simpletree\devui\components\Module
 	//path to codeception.yml
 	public $path = '@app';
 
-	//default codeception.yml configuration
-	protected $_config = [
+	//custom codeception.yml configuration
+	public $config = [
 		'tests' => 'tests',
 		'log' => 'tests/_log',
 		'data' => 'tests/_data',
 		'helpers' => 'tests/_helpers'
 	];
-
-	//custom codeception.yml configuration
-	public $config = [];
 
 	//custom commands
 	public $commands = [
@@ -53,30 +50,11 @@ class Module extends \Simpletree\devui\components\Module
 	public function init()
 	{
 		parent::init();
-
-		$this->config = array_merge($this->_config, $this->config);
 		//set alias
-		\Yii::setAlias('codeceptionLog', $this->getRealPathFor('log'));
+		\Yii::setAlias('codeception', $this->path);;
 
+		$path =  \Yii::getAlias('@codeception/codeception.yml');
 
 
 	}
-
-
-
-	/**
-	 * Returns the real path of a $config item
-	 * @param $path
-	 * @return string
-	 */
-	public function getRealPathFor($path)
-	{
-		$path = $this->config[$path];
-		if(substr($path, 0, 1) !== '/')		{
-			$path = \Yii::getAlias($this->path . '/' . $path);
-		}
-		return $path;
-	}
-
-
 }

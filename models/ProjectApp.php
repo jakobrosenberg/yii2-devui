@@ -46,4 +46,29 @@ class ProjectApp extends \Simpletree\devui\models\base\ProjectApp
 		$this->actions = '';
 		return true;
 	}
+
+	static function getCurrent($App = null)
+	{
+		static $_app;
+
+		if(is_int($App)){
+			$_app = self::find($App);
+		}elseif (is_object($App)){
+			$_app = $App;
+		}
+
+
+
+		if ($_app === null){
+			$moduleName = \Yii::$app->controller->module->className();
+			$App = App::find(['path'=>$moduleName]);
+			$_app = ProjectApp::find([
+				'id_project' => Project::getCurrent()->id,
+				'id_app' => $App->id
+			]);
+		}
+
+		return $_app;
+
+	}
 }

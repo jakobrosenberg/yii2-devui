@@ -5,17 +5,17 @@
  * Time: 23:00
  */
 
-namespace Simpletree\devui;
+namespace Simpletree\devui\widgets\FlexIframe;
 
 use Simpletree\devui\models\Bookmark;
 use yii\helpers\Html;
-use yii\base\Widget;
 use yii\web\View;
 
-class FlexIframe extends Widget{
+class FlexIframe extends \yii\base\Widget{
 
 	public $url;
-	public $interval=20;
+	public $interval = 20;
+	public $bookmarks = true;
 
 	/**
 	 * Set to one of the following options
@@ -39,7 +39,9 @@ class FlexIframe extends Widget{
 		$this->registerJs();
 		$this->registerCss();
 
-		$this->renderBookmarks();
+		if($this->bookmarks){
+			$this->renderBookmarks();
+		}
 		$this->renderIframe();
 
 
@@ -47,8 +49,7 @@ class FlexIframe extends Widget{
 
 	public function renderBookmarks()
 	{
-
-		echo $this->render('iframe/bookmark', [
+		echo $this->render('bookmark', [
 			'Bookmark' => new \Simpletree\devui\models\base\Bookmark(['id_app' => $this->view->context->module->projectId]),
 			'bookmarks' => \Simpletree\devui\models\Bookmark::find()->where(['id_app'=>$this->view->context->module->projectId])->all()
 		]);

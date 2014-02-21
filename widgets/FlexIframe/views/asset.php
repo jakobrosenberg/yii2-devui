@@ -11,5 +11,5 @@
 	if(isset($scriptFile))
 		$iframeOptions['url'] .='/'.$scriptFile;
 
-echo \Simpletree\devui\FlexIframe::Widget($iframeOptions);
+echo \Simpletree\devui\widgets\FlexIframe::Widget($iframeOptions);
 ?>

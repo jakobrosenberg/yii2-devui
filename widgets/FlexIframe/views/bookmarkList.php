@@ -14,8 +14,8 @@ use yii\helpers\Html;
 
 	<?php foreach($bookmarks AS $BookmarkItem): ?>
 
-		<li class="list-group-item <?= isset($model) && $BookmarkItem->id == $model->id ? 'highlight' : '' ?>">
-			<?= Html::a('x', ["/$DevuiModule->uniqueId/bookmark/delete", 'id'=>$BookmarkItem->id], ['class'=>'bookmark_delete close']) ?>
+		<li class="list-group-item <?= $model && $BookmarkItem->id == $model->id ? 'highlight' : '' ?>">
+			<?= Html::a('x', ["/$DevuiModule->uniqueId/default/flexiframe", 'action'=>'delete', 'id'=>$BookmarkItem->id], ['class'=>'bookmark_delete close']) ?>
 			<?php if($BookmarkItem->default): ?>
 				<span class="button glyphicon glyphicon-home"></span>
 			<?php endif ?>

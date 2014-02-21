@@ -19,11 +19,6 @@ use yii\base\Behavior;
  */
 class ModuleApp extends Behavior{
 
-	public function test()
-	{
-		return 'ootoot';
-	}
-
 	public function getProjectId()
 	{
 		$class = get_class($this->owner);
