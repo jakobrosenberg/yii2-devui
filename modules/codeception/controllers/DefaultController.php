@@ -6,6 +6,7 @@ use Simpletree\devui\components\Controller;
 use Simpletree\devui\models\base\CommandHistory;
 use Simpletree\devui\models\Project;
 use Simpletree\devui\models\ProjectApp;
+use yii\data\ActiveDataProvider;
 
 class DefaultController extends Controller
 {
@@ -18,20 +19,24 @@ class DefaultController extends Controller
 
 	public function actionReport()
 	{
-		$file = \Yii::getAlias('@codeception/'.$this->module->data['paths']['log'].'/report.html');
-
 		$result = $this->processCommandLine();
 		$model = new CommandHistory([
 			'id_project' => Project::getCurrent()->id,
 			'id_app' => ProjectApp::getCurrent()->id
 		]);
 
-		\PC::debug($model);
+		$commandHistory = new ActiveDataProvider([
+			'query' => CommandHistory::find(),
+			'pagination' => [
+				'pageSize' => 5
+			]
+		]);
 
 		return $this->render('report',[
-			'file'=>$file,
+			'file'=>\Yii::getAlias('@codeception/'.$this->module->data['paths']['log'].'/report.html'),
 			'model'=>$model,
 			'result' => $result,
+			'commandHistory' => $commandHistory
 		]);
 	}
 

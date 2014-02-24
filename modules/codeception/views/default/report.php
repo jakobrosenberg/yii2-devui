@@ -11,24 +11,46 @@ use yii\helpers\Html;
 
 <?php $asset = \Simpletree\devui\DevuiAsset::register($this) ?>
 
+<div ng-controller="CommandListCtrl">
+	<div>
+		Count: {{commands.items.length}}
+	</div>
 
+	<div>
+		<div ng-repeat="command in commands.items">
+			<strong>{{command.command}}</strong>
+			<span class="hidden">{{command.result}}</span>
+		</div>
+	</div>
+</div>
+
+
+
+<!--Past commands-->
+
+	<?= \Simpletree\devui\widgets\ListView::widget([
+		'dataProvider' => $commandHistory,
+		'itemView' => '_command',
+		'itemOptions' => [
+			'tag' => 'li',
+			'class' => 'list-group-item'
+		],
+		'layout' => "{summary}\n<ul class='list-group'>{items}</ul>\n{pager}",
+		'reverse' => true
+	]) ?>
+
+<!--/Past commands-->
 
 
 <!--Submit command-->
 <?php $form = \yii\widgets\ActiveForm::begin() ?>
 <?= $form->field($model, 'command') ?>
-<?= $form->field($model, 'id_app') ?>
-<?= $form->field($model, 'id_project') ?>
+<?= Html::activeHiddenInput($model, 'id_app') ?>
+<?= Html::activeHiddenInput($model, 'id_project') ?>
 <?= Html::submitButton() ?>
 <?php $form->end(); ?>
 <!--/Submit command-->
 
-
-<?php if($result):?>
-<code>
-<?= $result ?>
-</code>
-<?php endif; ?>
 
 <!--FlexIframe-->
 <?php if(file_exists($file)): ?>

@@ -1,6 +1,7 @@
 <?php
 
 namespace Simpletree\devui\models\base;
+use Simpletree\devui\models\Query;
 
 /**
  * This is the model class for table "devui_command_history".
@@ -52,5 +53,12 @@ class CommandHistory extends \yii\db\ActiveRecord
 			'result' => 'Result',
 			'create_time' => 'Create Time',
 		];
+	}
+
+	public static function createQuery($config = [])
+	{
+		$query = new Query(['modelClass' => get_called_class()]);
+		$query->orderByNewest();
+		return $query;
 	}
 }

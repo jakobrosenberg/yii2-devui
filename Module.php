@@ -32,7 +32,7 @@ class Module extends \yii\base\Module
 	public function init()
 	{
 		parent::init();
-
+		$this->registerApi();
 
 		\Yii::$app->setComponent('assetManager', ['class'=>'\Simpletree\devui\components\AssetManager']);
 
@@ -65,6 +65,21 @@ class Module extends \yii\base\Module
 
 	}
 
+
+	public function registerApi()
+	{
+		$modules = [
+			'api'=>[
+				'class' => '\Simpletree\devui\modules\api\Module',
+				'modules' => [
+					'v1' => '\Simpletree\devui\modules\api\modules\v1\Module',
+					'v2' => '\Simpletree\devui\modules\api\modules\v2\Module',
+					'v3' => '\Simpletree\devui\modules\api\modules\v3\Module'
+				]
+			]
+		];
+		$this->setModules($modules);
+	}
 
 
 	public function getDb()

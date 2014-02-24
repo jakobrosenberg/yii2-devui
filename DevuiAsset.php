@@ -9,6 +9,7 @@ namespace Simpletree\devui;
 
 
 use yii\web\AssetBundle;
+use yii\web\View;
 
 class DevuiAsset extends AssetBundle{
 
@@ -16,6 +17,16 @@ class DevuiAsset extends AssetBundle{
 
 	public $css = ['css/main.css', 'css/toggle-switch.css'];
 
+	public $js = [
+		'scripts/vendor/angular.min.js',
+		'scripts/services.js',
+		'scripts/app.js',
+		'scripts/vendor/angular-resource.min.js',
+		'scripts/vendor/angular-route.min.js',
+		'scripts/controllers.js',
+	];
+
+	public $jsOptions = ['position' => View::POS_HEAD];
 
 	public $publishOptions = ['forceCopy' => true];
 

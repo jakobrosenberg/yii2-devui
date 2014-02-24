@@ -11,7 +11,7 @@ $this->registerAssetBundle('\Simpletree\devui\DevuiAsset');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="devuiApp">
 <head>
 	<meta charset="utf-8"/>
 	<title><?= Html::encode($this->title) ?></title>
